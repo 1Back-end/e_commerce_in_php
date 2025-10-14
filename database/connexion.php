@@ -8,7 +8,7 @@ $password = '';
 try {
     // Créer une nouvelle instance de connexion
     $connexion = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    
+
     // Configurer connexion pour afficher les erreurs sous forme d'exceptions
     $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
