@@ -70,7 +70,7 @@ $currentPage = $pagination['current_page'];
                                 <td>
                                     <div class="d-flex align-items-center justify-content-center">
                                         <?php if ($user['is_active']): ?>
-                                            <a href="deactivate_users.php?uuid=<?= htmlspecialchars($user['uuid']) ?>" class="badge bg-danger border-0 rounded-0 text-white text-decoration-none px-2 py-2 mx-2">Désactiver</a>
+                                            <a href="desactivate_users.php?uuid=<?= htmlspecialchars($user['uuid']) ?>" class="badge bg-danger border-0 rounded-0 text-white text-decoration-none px-2 py-2 mx-2">Désactiver</a>
                                         <?php else: ?>
                                             <a href="activate_users.php?uuid=<?= htmlspecialchars($user['uuid']) ?>" class="badge bg-success border-0 rounded-0 text-white text-decoration-none px-2 py-2 mx-2">Activer</a>
                                         <?php endif; ?>

@@ -24,7 +24,7 @@ if (isset($_POST["save_users"])) {
         $exist_info = $connexion->prepare("
             SELECT COUNT(*) 
             FROM tlbl_users 
-            WHERE is_deleted = 0 
+            WHERE is_deleted = 1 
             AND (email = :email OR phone_number = :phone_number OR phone_number_2 = :phone_number_2)
         ");
         $exist_info->execute([

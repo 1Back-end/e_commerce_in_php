@@ -11,6 +11,8 @@
 </head>
 
 <body>
+
+  <?php include("../authentification/session_users.php")?>
   <!--  Body Wrapper -->
   <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
     data-sidebar-position="fixed" data-header-position="fixed">
@@ -154,7 +156,7 @@
                       <p class="mb-0 fs-3">My Account</p>
                     </a>
             
-                    <a href="" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                    <a href="../authentification/logout.php" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
                   </div>
                 </div>
               </li>

@@ -10,7 +10,7 @@
             </ul>
             <ul class="header-links pull-right">
                 <li><a href="#"><i class="fa fa-money"></i> FCFA</a></li>
-                <li><a href="#"><i class="fa fa-user-o"></i> Mon compte</a></li>
+                <li><a href="../authentification/login.php"><i class="fa fa-user-o"></i> Mon compte</a></li>
             </ul>
         </div>
     </div>

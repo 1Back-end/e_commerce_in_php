@@ -10,8 +10,8 @@ if (isset($_POST["submit"])) {
 
     try {
         // Vérifier si l'utilisateur existe avec l'email ou le nom
-        $stmt = $connexion->prepare("SELECT id, first_name, last_name, email, password, status, photo, role, is_deleted 
-                                     FROM users WHERE email = :username OR CONCAT(first_name, ' ', last_name) = :username");
+        $stmt = $connexion->prepare("SELECT uuid, first_name, last_name, email, password, is_active, role, is_deleted 
+                                     FROM tlbl_users WHERE email = :username OR CONCAT(first_name, ' ', last_name) = :username");
         $stmt->bindParam(':username', $username);
         $stmt->execute();
 
@@ -21,7 +21,7 @@ if (isset($_POST["submit"])) {
             // Vérifier si le mot de passe est correct
             if (password_verify($password, $user['password'])) {
                 // Vérifier le statut de l'utilisateur
-                if ($user['status'] == 'inactive') {
+                if ($user['is_active'] == 0) {
                     $erreur = "Votre compte est inactif. Veuillez contacter l'administrateur.";
                 } elseif ($user['is_deleted'] == 1) {
                     $erreur = "Votre compte a été supprimé.";
@@ -30,16 +30,15 @@ if (isset($_POST["submit"])) {
                     session_start();
 
                     // Créer des variables de session
-                    $_SESSION['id'] = $user['id'];
+                    $_SESSION['uuid'] = $user['uuid'];
                     $_SESSION['email'] = $user['email'];
                     $_SESSION['name'] = $user['first_name'] . ' ' . $user['last_name'];
-                    $_SESSION['photo'] = $user['photo'] ?? '../vendors/images/profile.png';  // Si la photo est nulle, on met une image par défaut
                     $_SESSION['role'] = $user['role'];  // Statut de l'utilisateur
 
                     // Rediriger selon le rôle
-                    if ($user['role'] == "super_admin") {
+                    if ($user['role'] == "admin") {
                         header("Location: ../admin/dashboard.php");
-                    } elseif ($user['role'] == "Gestionnaire Motel & Restaurant" || $user['role'] =="Sécretaire" || $user['role'] =="Gestionnaire IMMO" || $user['role'] =="Chef d’agence") {
+                    } elseif ($user['role'] == "user") {
                         header("Location: ../users/dashboard.php");
                     } else {
                         $erreur = "Accès refusé.";
