@@ -56,6 +56,34 @@ function get_all_users($connexion, int $page = 1, int $limit = 25): array {
     ];
 }
 
+function get_all_category($connexion, int $page = 1, int $limit = 25): array {
+    $offset = ($page - 1) * $limit;
+
+    // Récupérer le total des utilisateurs
+    $count_category_product = $connexion->prepare("SELECT COUNT(*) FROM tlbl_category_product WHERE is_deleted = 0");
+    $total = $count_category_product->fetchColumn();
+    $total_pages = max(1, ceil($total / $limit)); // éviter division par zéro
+
+    // Préparer la requête paginée
+    $all_category = $connexion->prepare("
+        SELECT * 
+        FROM tlbl_category_product
+        WHERE is_deleted = 0 
+        ORDER BY created_at DESC 
+        LIMIT :limit OFFSET :offset
+    ");
+    $all_category->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $all_category->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $all_category->execute();
+    $category_product = $all_category->fetchAll(PDO::FETCH_ASSOC);
+
+    return [
+        'data' => $category_product,
+        'total_pages' => $total_pages,
+        'current_page' => $page
+    ];
+}
+
 
 
 
