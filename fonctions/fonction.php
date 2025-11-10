@@ -27,6 +27,14 @@ function generatePassword($len = 12) {
     }
     return $pwd;
 }
+function generateProductsCode() {
+    // Générer un UUID pour garantir l'unicité
+    $uuid = generate_uuid_v4();
+    // Obtenir la date et l'heure actuelles pour la référence
+    $dateTime = date('YmdHis'); // Format : AAAAMMJJHHMMSS
+    // Combiner le tout pour créer une référence de commande unique
+    return 'PRODUCT-' . $dateTime . '-' . substr($uuid, 0, 8); // Exemple : CMD-20231022123000-123e4567
+}
 
 function get_all_users($connexion, int $page = 1, int $limit = 25): array {
     $offset = ($page - 1) * $limit;
@@ -56,34 +64,43 @@ function get_all_users($connexion, int $page = 1, int $limit = 25): array {
     ];
 }
 
-function get_all_category($connexion, int $page = 1, int $limit = 25): array {
-    $offset = ($page - 1) * $limit;
+function get_active_category_products($connexion){
+    $category_product = $connexion->prepare('SELECT * FROM tlbl_category_product WHERE is_active = 1 AND is_deleted = 0 ORDER BY created_at DESC');
+    $category_product->execute();
+    return $category_product->fetchAll(PDO::FETCH_ASSOC);
 
-    // Récupérer le total des utilisateurs
-    $count_category_product = $connexion->prepare("SELECT COUNT(*) FROM tlbl_category_product WHERE is_deleted = 0");
-    $total = $count_category_product->fetchColumn();
-    $total_pages = max(1, ceil($total / $limit)); // éviter division par zéro
-
-    // Préparer la requête paginée
-    $all_category = $connexion->prepare("
-        SELECT * 
-        FROM tlbl_category_product
-        WHERE is_deleted = 0 
-        ORDER BY created_at DESC 
-        LIMIT :limit OFFSET :offset
-    ");
-    $all_category->bindValue(':limit', $limit, PDO::PARAM_INT);
-    $all_category->bindValue(':offset', $offset, PDO::PARAM_INT);
-    $all_category->execute();
-    $category_product = $all_category->fetchAll(PDO::FETCH_ASSOC);
-
-    return [
-        'data' => $category_product,
-        'total_pages' => $total_pages,
-        'current_page' => $page
-    ];
 }
 
+function get_all_products($connexion, int $page = 1, int $limit = 25): array {
+    $offset = ($page - 1) * $limit;
+
+    // Récupérer le total des produits
+    $count_products = $connexion->query("SELECT COUNT(*) FROM tlbl_products WHERE is_deleted = 0");
+    $total = (int) $count_products->fetchColumn();
+    $total_pages = max(1, ceil($total / $limit)); // éviter division par zéro
+
+    //  Préparer la requête paginée
+    $all_products = $connexion->prepare("
+        SELECT 
+            p.*, 
+            c.name AS category_product
+        FROM tlbl_products p
+        JOIN tlbl_category_product c ON p.category_product_uuid = c.uuid
+        WHERE p.is_deleted = 0
+        ORDER BY p.created_at DESC
+        LIMIT :limit OFFSET :offset
+    ");
+    $all_products->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $all_products->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $all_products->execute();
+    $products = $all_products->fetchAll(PDO::FETCH_ASSOC);
+
+    return [
+        'data' => $products,
+        'total_pages' => $total_pages,
+        'current_page' =>$page
+];
+}
 
 
 

@@ -1,5 +1,8 @@
 <?php include("../include/menu.php"); ?>
-
+<?php include("../fonctions/fonction.php"); ?>
+<?php 
+$category_products = get_active_category_products($connexion);
+?>
 
 <div class="body-wrapper-inner">
     <div class="container-fluid mt-3 pb-5">
@@ -15,9 +18,16 @@
             </div>
         </div>
 
-        <div class="col-md-12 col-sm-12 mb-3">
+      <div class="col-md-12 col-sm-12 mb-3">
+        <?php include("process_add_product.php"); ?>
+        <?php if ($error): ?>
+        <div class="alert alert-danger text-center border-0 rounded-0"><?= $error ?></div>
+        <?php endif; ?>
 
-
+        <?php if ($success): ?>
+            <div class="alert alert-success text-center border-0 rounded-0"><?= $success ?></div>
+        <?php endif;?>
+    </div>
             
         <div class="col-lg-12 col-sm-12 mb-3">
             <div class="card shadow-sm rounded-0 p-3">
@@ -32,7 +42,7 @@
 
                         <div class="col-lg-4 col-sm-12 mb-3">
                             <label class="form-label">Prix (FCFA) <span class="text-danger">*</span></label>
-                            <input type="number" name="price" class="form-control" step="0.01" required>
+                            <input type="number" name="price" min="0" class="form-control" step="0.01" required>
                             <div class="invalid-feedback">Ce champ est requis !</div>
                         </div>
 
@@ -49,8 +59,8 @@
                    </div> 
                    
                     <div class="col-lg-4 col-sm-12 mb-3">
-                    <label for="">Code <span class="text-danger">*</span></label>
-                    <input type="number" name="code" class="form-control" required>
+                    <label class="form-label">Stock seuil <span class="text-danger">*</span></label>
+                    <input type="number" min="0" name="stock_seuil" class="form-control" required>
                     <div class="invalid-feedback">
                         ce champ est requis
                     </div>
@@ -70,7 +80,7 @@
 
                         <div class="col-lg-4 col-sm-12 mb-3">
                             <label class="form-label">Image du produit</label>
-                            <input type="file" name="image" class="form-control">
+                            <input type="file" name="image_file" class="form-control">
                         </div>
                     </div>
 
