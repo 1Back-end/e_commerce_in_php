@@ -86,7 +86,7 @@ function get_all_products($connexion, int $page = 1, int $limit = 25): array {
             c.name AS category_product
         FROM tlbl_products p
         JOIN tlbl_category_product c ON p.category_product_uuid = c.uuid
-        WHERE p.is_deleted = 0
+        WHERE p.is_deleted = 0 
         ORDER BY p.created_at DESC
         LIMIT :limit OFFSET :offset
     ");
@@ -100,6 +100,36 @@ function get_all_products($connexion, int $page = 1, int $limit = 25): array {
         'total_pages' => $total_pages,
         'current_page' =>$page
 ];
+}
+
+
+
+
+function get_all_category($connexion, int $page = 1, int $limit = 25): array {
+    $offset = ($page - 1) * $limit;
+
+    // Récupérer le total des produits
+    $count_category = $connexion->query("SELECT COUNT(*) FROM tlbl_category_product WHERE is_deleted = 0");
+    $total = (int) $count_category->fetchColumn();
+    $total_pages = max(1, ceil($total / $limit)); 
+
+    $all_category = $connexion->prepare("
+        SELECT * 
+        FROM tlbl_category_product 
+        WHERE is_deleted = 0 
+        ORDER BY created_at DESC
+        LIMIT :limit OFFSET :offset
+    ");
+    $all_category->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $all_category->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $all_category->execute();
+    $category = $all_category->fetchAll(PDO::FETCH_ASSOC);
+
+    return [
+        'data' => $category,
+        'total_pages' => $total_pages,
+        'current_page' => $page
+    ];
 }
 
 
