@@ -96,6 +96,15 @@
               </a>
             </li>
 
+
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="../index.php" aria-expanded="false">
+              <i class="fa-solid fa-backward"></i>
+                <span class="hide-menu">Retour</span>
+              </a>
+            </li>
+
             
             
             <!-- ---------------------------------- -->

@@ -1,3 +1,13 @@
+<?php
+
+if (!isset($_SESSION['cart']) || !is_array($_SESSION['cart'])) {
+    $_SESSION['cart'] = [];
+}
+
+$totalArticles = array_sum($_SESSION['cart']);
+?>
+
+
 <!-- EN-TÊTE -->
 <header>
     <!-- EN-TÊTE SUPÉRIEUR -->
@@ -62,10 +72,11 @@
 
                         <!-- Panier -->
                         <div class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                            <a href="../pages/cart.php" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                <!-- <?php session_start(); ?> -->
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>Mon panier</span>
-                                <div class="qty">3</div>
+                                <div class="qty"><?= isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0 ?></div>
                             </a>
                             <div class="cart-dropdown">
                                 <div class="cart-list">
