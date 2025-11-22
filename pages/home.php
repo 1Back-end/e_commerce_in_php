@@ -27,6 +27,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <?php
 require_once('../fonctions/fonction.php');
+
 $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
 $pagination = get_all_products($connexion, $page);
 
@@ -60,11 +61,7 @@ $currentPage = $pagination['current_page'];
                                     <h4 class="product-price text-danger">
                                         <?= htmlspecialchars($product['price']) ?> 
                                     </h4>
-                                  <a href="add_to_cart.php?uuid=<?= htmlspecialchars($product['uuid']) ?>" 
-                                        class="btn btn-info w-100">
-                                            Commander
-                                </a>
-
+                                  <button type="button" class="btn btn-info">Commander</button>
                                 </div>
                             </div>
                         </div>
@@ -79,8 +76,7 @@ $currentPage = $pagination['current_page'];
     </div>
 </div>
 
-<br><br>
-<?php include("../components/footer.php")?>
 
+<?php include("../components/footer.php")?>
 </body>
 </html>
