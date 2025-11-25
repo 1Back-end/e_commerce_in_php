@@ -8,7 +8,6 @@ if (isset($_POST['clear_cart'])) {
     header("Location: cart.php"); // Redirige pour éviter le rechargement du formulaire
     exit();
 }
-
 // Récupération du message
 $message = $_SESSION['message'] ?? null;
 unset($_SESSION['message']); // Effacer le message après affichage

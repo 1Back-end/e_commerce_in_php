@@ -52,7 +52,8 @@ $currentPage = $pagination['current_page'];
                             <h5 class="card-title"><?= htmlspecialchars($product['name']) ?></h5>
                             <p class="card-text"><?= htmlspecialchars($product['category_product']) ?></p>
                             <p class="fw-bold"><?= htmlspecialchars($product['price']) ?> FCFA</p>
-                            <a href="#" class="btn btn-primary">Commander</a>
+                           <a href="add_to_cart.php?action=add&uuid=<?= htmlspecialchars($product['uuid']) ?>" class="btn btn-primary">Commander</a>
+
                         </div>
                     </div>
 

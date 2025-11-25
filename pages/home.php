@@ -1,13 +1,3 @@
-<?php
-// Démarrage de session au tout début
-if (session_status() === PHP_SESSION_NONE) {
-    session_set_cookie_params(['path' => '/']);
-    session_start();
-}
-?>
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,7 +51,11 @@ $currentPage = $pagination['current_page'];
                                     <h4 class="product-price text-danger">
                                         <?= htmlspecialchars($product['price']) ?> 
                                     </h4>
-                                  <button type="button" class="btn btn-info">Commander</button>
+                                  <a href="product.php?uuid=<?= htmlspecialchars($product['uuid']) ?>" 
+                                        class="btn btn-warning w-100">
+                                            Voir le produit
+                                </a>
+
                                 </div>
                             </div>
                         </div>
@@ -76,7 +70,8 @@ $currentPage = $pagination['current_page'];
     </div>
 </div>
 
-
+<br><br>
 <?php include("../components/footer.php")?>
+
 </body>
-</html>
+</html>   
