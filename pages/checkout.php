@@ -7,18 +7,11 @@ if (!isset($_SESSION['cart']) || !is_array($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
 
+require_once('../fonctions/fonction.php'); 
+require_once("../database/connexion.php"); 
 
-// Connexion à la base de données (MySQL)
-$host = "localhost";
-$user = "root";
-$password = "";
-$dbname = "e_commerce_in_php";
-
+$order_uuid = $_GET['order_uuid'] ?? null;
 ?>
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,7 +22,6 @@ $dbname = "e_commerce_in_php";
 </head>
 <body>
 
-
 <?php include("../components/navbar.php")?>
 
 
@@ -38,6 +30,10 @@ $dbname = "e_commerce_in_php";
 
 
 
+
+
+
+<br>
 <?php include("../components/footer.php")?>
 </body>
 </html>

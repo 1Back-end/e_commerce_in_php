@@ -1,13 +1,6 @@
 <?php
 session_start();
 
-
-if (isset($_POST['clear_cart'])) {
-    $_SESSION['cart'] = []; // Vide le panier
-    $_SESSION['message'] = "Le panier a été vidé.";
-    header("Location: cart.php"); // Redirige pour éviter le rechargement du formulaire
-    exit();
-}
 // Récupération du message
 $message = $_SESSION['message'] ?? null;
 unset($_SESSION['message']); // Effacer le message après affichage
@@ -68,9 +61,6 @@ $totalArticles = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
                 <p>Vous pouvez continuer vos achats ou passer à la commande.</p>
                 <a href="product.php" class="btn btn-success btn-back">Continuer vos achats</a>
                 <a href="checkout.php" class="btn btn-success btn-back">Passer à la commande</a>
-                <form method="post">
-        <button class="btn btn-primary btn-back " type="submit" name="clear_cart">Vider le panier</button>
-         </form>
             <?php else: ?>
                 <h4 class="text-danger">Votre panier est vide</h4>
                 <a href="product.php" class="btn btn-primary btn-back">Voir les produits</a>
@@ -78,7 +68,6 @@ $totalArticles = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
         </div>
     </div>
         
-
 
 <br><br>
     <?php include("../components/footer.php")?>

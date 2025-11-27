@@ -133,6 +133,24 @@ function get_all_category($connexion, int $page = 1, int $limit = 25): array {
 }
 
 
+// function get_order_items($connexion, $order_uuid) {
+//     $sql = "
+//         SELECT 
+//             oi.product_uuid,
+//             p.name AS product_name,
+//             oi.quantity,
+//             oi.unit_price,
+//             oi.total_price
+//         FROM order_items oi
+//         JOIN products p ON oi.product_uuid = p.product_uuid
+//         WHERE oi.order_uuid = ?
+//     ";
+
+//     $stmt = $connexion->prepare($sql);
+//     $stmt->execute([$order_uuid]);
+//     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+// }
+
 
 
 

@@ -76,8 +76,10 @@ $totalArticles = array_sum($_SESSION['cart']);
                                 <!-- <?php session_start(); ?> -->
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>Mon panier</span>
-                                <div class="qty"><?= isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0 ?></div>
-                            </a>
+                                <div class="qty">
+                            <?= isset($_SESSION['cart']) ? array_sum(array_column($_SESSION['cart'], 'qte')) : 2 ?>
+                        </div>
+
                             <div class="cart-dropdown">
                                 <div class="cart-list">
                                     <div class="product-widget">
